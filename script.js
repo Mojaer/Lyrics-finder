@@ -9,16 +9,17 @@ document.getElementById('search-btn').addEventListener('click', getTitle);
 
 function getTitle() {
 
-    fetch(`https://api.lyrics.ovh/suggest/${songName.value}`)
+    fetch(`https://api.lyrics.ovh/suggest/:${songName.value}`)
         .then(resp => resp.json())
         .then(data => {
 
             const resultData = data.data.splice(0, 5);
 
+            showResult.innerHTML=''
 
+            const results = document.createElement('div');
 
-            for (i = 0; i <= 5; i++) {
-                const results = document.createElement('div');
+            for (var i = 0; i <= 5; i++) {
 
                 var songTitle = resultData[i].title;
                 var artistName = resultData[i].artist.name
@@ -38,22 +39,21 @@ function getTitle() {
                 showResult.appendChild(results);
 
             }
-
-
-
-
-        }
+      }
 
         )
 }
 
 const lyrics = document.getElementById('lyrics')
 
-function lyricsCreat(artist, title) {
+function lyricsCreat(artist,title) {
     fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`)
         .then(respon => respon.json())
-        .then(data=>
-            console.log(data))
+        .then(data=>{ 
+            console.log(data)
+            document.getElementById('lyrics').innerText=data.lyrics
+        }
+           )
 }
 
 
